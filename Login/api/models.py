@@ -40,7 +40,10 @@ class masUser(AbstractBaseUser, PermissionsMixin):
     is_otp_verified = models.BooleanField(default=False)
     isSuperAdmin = models.BooleanField(default=False)
     isAdmin = models.BooleanField(default=False)
+    isActive = models.BooleanField(default=True)
     createdDate = models.DateTimeField(auto_now_add=True)
+
+    is_staff = models.BooleanField(null=True, blank=True, default=False)
 
     objects = Usermanager()
 
@@ -52,6 +55,7 @@ class masUser(AbstractBaseUser, PermissionsMixin):
 
     def has_module_perms(self, app_label):
         return self.isSuperAdmin
-
-    def __str__(self):
-        return self.username
+    
+    @property
+    def is_staff(self):
+        return self.isActive

@@ -8,5 +8,5 @@ from .models import masUser
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
-        models = masUser
-        fields = ['first_name', 'last_name', 'email_id', 'otp', 'is_otp_verified', 'createdDate']
+        model = masUser
+        fields = ['id', 'first_name', 'last_name', 'email_id', 'otp', 'is_otp_verified', 'createdDate']

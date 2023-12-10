@@ -10,13 +10,16 @@ from .models import masUser
 
 
 def send_email(user_id=None, otp=None, email_type='signin', *args, **kwargs):
+
     try:
+
         if user_id:
             userData = masUser.objects.filter(id=user_id).values().first()
-            user_name = userData.get('first_name') +' '+ userData.get('last_name')
+            user_name =  ''.join(filter(None, [userData.get('first_name'), userData.get('last_name')]))
             subject = 'OTP Verification'
 
-            html_content = render_to_string('otp_verify.html',{'otp':otp, 'email_type':email_type, 'name':user_name})
+            context = {'otp':otp, 'email_type':email_type, 'name':user_name}
+            html_content = render_to_string('email_templates/otp_verify.html',context=context)
             subject = subject
             from_address = settings.EMAIL_HOST_USER
             text = strip_tags(html_content)
@@ -24,6 +27,7 @@ def send_email(user_id=None, otp=None, email_type='signin', *args, **kwargs):
             email_msg.attach_alternative(html_content, 'text/html')
             email_msg.send()
             return True
+
     except Exception as e:
         pass
     
