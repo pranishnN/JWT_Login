@@ -24,7 +24,7 @@ EXCEPTION_RESPONSE = {'data':{'message':'Oops, Something went wrong'}, 'status':
 
 otp_func = lambda length : ''.join(random.choices(string.digits, k=length))
 
-otp_expire_time_func = lambda sec=15: datetime.now() + timedelta(seconds=sec)
+otp_expire_time_func = lambda sec=200: datetime.now() + timedelta(seconds=sec)
 
 def update_request_data(data):
     data._mutable = True
@@ -74,7 +74,7 @@ class UserRegistrationAPI(APIView):
 
         except Exception as e:
             print('=====except Exception=====', e)
-            return Response(**EXCEPTION_RESPONSE) 
+            return Response(**EXCEPTION_RESPONSE)
 
 class UserLoginAPI(APIView):
     
@@ -109,7 +109,8 @@ class OTPVerifyAPI(APIView):
         user_data = user.values().first()
         if user.exists() and user_data.get('otp') == str(otp):
             
-            if parse(str(user_data.get('otp_expire_time'))).timestamp() < parse(str(datetime.now())).timestamp():
+            # if parse(str(user_data.get('otp_expire_time'))).timestamp() < parse(str(datetime.now())).timestamp():
+            if user.filter(otp_expire_time__lt=datetime.now()).exists():
                 return Response({'message':'OTP has been expired'}, status=status.HTTP_400_BAD_REQUEST)
 
             token = generate_jwt_token(user.first())
