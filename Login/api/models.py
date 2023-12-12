@@ -37,6 +37,7 @@ class masUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(null=True, max_length=100, blank=True)
     email_id = models.CharField(max_length=200, unique=True, error_messages={'unique':'This email already exists'})
     otp = models.CharField(max_length=10, null=True, blank=True)
+    otp_expire_time = models.DateTimeField(null=True, blank=True)
     is_otp_verified = models.BooleanField(default=False)
     isSuperAdmin = models.BooleanField(default=False)
     isAdmin = models.BooleanField(default=False)

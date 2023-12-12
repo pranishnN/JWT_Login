@@ -1,5 +1,7 @@
 
 import json, random, string
+from datetime import datetime, timedelta
+from dateutil.parser import parse
 
 # ---rest-----
 from rest_framework.response import Response
@@ -22,6 +24,8 @@ EXCEPTION_RESPONSE = {'data':{'message':'Oops, Something went wrong'}, 'status':
 
 otp_func = lambda length : ''.join(random.choices(string.digits, k=length))
 
+otp_expire_time_func = lambda sec=15: datetime.now() + timedelta(seconds=sec)
+
 def update_request_data(data):
     data._mutable = True
     data['password'] = settings.DEFAULT_PASSWORD
@@ -32,7 +36,8 @@ class UserRegistrationAPI(APIView):
 
     def get(self, request):
         try:
-            send_email(user_id=1, otp='543432')
+            masUser.objects.filter(id=1).update(otp='838393')
+            # send_email(user_id=1, otp='543432')
             # userId = request.GET.get('userId')
             # userData = masUser.objects.filter(id=userId).values().first()
             return Response('userData')
@@ -48,11 +53,14 @@ class UserRegistrationAPI(APIView):
             if serializer_class.is_valid():
                 serializer_class.save()
                 user_id = serializer_class.data.get('id')
+
                 otp = otp_func(length=6)
-                update = masUser.objects.filter(id=user_id).update(otp=otp)
+                otp_expire_time = otp_expire_time_func()
+                update = masUser.objects.filter(id=user_id).update(otp=otp, otp_expire_time=otp_expire_time)
+                
                 if update != 0:
                     print('-------OTP-------', otp)
-                    # send_email(user_id=user_id, otp=otp)
+                    send_email(user_id=user_id, otp=otp)
                     data = {'message':'OTP send successfully', 'email_id':serializer_class.data.get('email_id')}
                     return Response(data=data, status=status.HTTP_201_CREATED)
                 else:
@@ -73,12 +81,14 @@ class UserLoginAPI(APIView):
     def post(self, request):
         email = request.data.get('email_id')
         user = masUser.objects.filter(email_id__iexact=email)
+        user_id = user.first().id
         if user.exists():
             otp = otp_func(length=6)
-            update = user.update(otp=otp)
+            otp_expire_time = otp_expire_time_func()
+            update = user.update(otp=otp, otp_expire_time=otp_expire_time)
             if update != 0:
                 print('-------OTP-------', otp)
-                # send_email(user_id=user_id, otp=otp)
+                send_email(user_id=user_id, otp=otp)
                 data = {'message':'OTP send successfully', 'email_id':email}
                 return Response(data=data, status=status.HTTP_200_OK)
             else:
@@ -99,6 +109,9 @@ class OTPVerifyAPI(APIView):
         user_data = user.values().first()
         if user.exists() and user_data.get('otp') == str(otp):
             
+            if parse(str(user_data.get('otp_expire_time'))).timestamp() < parse(str(datetime.now())).timestamp():
+                return Response({'message':'OTP has been expired'}, status=status.HTTP_400_BAD_REQUEST)
+
             token = generate_jwt_token(user.first())
             data = {**token}
             data['user'] = user_data

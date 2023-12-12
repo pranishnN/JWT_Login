@@ -28,7 +28,7 @@ def register(request):
         post = requests.post(f"{api_url}/user/", data=data)
 
         if post.status_code == 201:
-            email = post.json()['data']['email_id']
+            email = post.json()['email_id']
             messages.success(request, post.json()['message'])
             return render(request, 'otp_verify.html', context={'email':email})
         else:
@@ -79,8 +79,8 @@ def otp_verify(request):
             print('======data======', data)
             messages.success(request, data['message'])
             context = dict()
-            context['first_name'] = data['first_name'] 
-            context['last_name'] = data['last_name'] 
+            context['first_name'] = data['user']['first_name'] 
+            context['last_name'] = data['user']['last_name'] 
             
             # userdata = requests.get(f'{api_url}/user/', params={'userId':userId})
             return render(request, 'home.html', context=context)
