@@ -36,11 +36,11 @@ class UserRegistrationAPI(APIView):
 
     def get(self, request):
         try:
-            masUser.objects.filter(id=1).update(otp='838393')
+            # masUser.objects.filter(id=1).update(otp='838393')
             # send_email(user_id=1, otp='543432')
-            # userId = request.GET.get('userId')
-            # userData = masUser.objects.filter(id=userId).values().first()
-            return Response('userData')
+            userId = request.GET.get('userId')
+            userData = masUser.objects.filter(id=userId).values().first()
+            return Response(userData)
         
         except Exception as e:
 
