@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "dcf36e47-13fe-4598-af65-e2f5965afad4",
+		"name": "jwt_login",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31462155"
+	},
+	"item": [
+		{
+			"name": "user api",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "first_name",
+							"value": "Marshall",
+							"type": "text"
+						},
+						{
+							"key": "last_name",
+							"value": "Jack",
+							"type": "text"
+						},
+						{
+							"key": "email_id",
+							"value": "jack@gmail.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/user/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "otp verify",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "otp",
+							"value": "548813",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "jack@gmail.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/otpverify/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"otpverify",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login api",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email_id",
+							"value": "praneshkumar512@gmail.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/login/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
