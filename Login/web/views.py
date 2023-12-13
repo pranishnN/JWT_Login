@@ -11,6 +11,8 @@ api_url = settings.API_URL
 
 mode = 'edit'
 
+common_headers = {'User-Agent': 'Mozilla/5.0'}
+
 
 def register(request):
 
@@ -25,7 +27,7 @@ def register(request):
             'email_id':email,
         }
 
-        post = requests.post(f"{api_url}/user/", data=data)
+        post = requests.post(f"{api_url}/user/", data=data, headers=common_headers)
 
         if post.status_code == 201:
             email = post.json()['email_id']
@@ -47,7 +49,7 @@ def login(request):
     if request.method == 'POST':
         email = request.POST.get('txtEmail')
         data = {'email_id':email}
-        post = requests.post(f"{api_url}/login/", data=data)
+        post = requests.post(f"{api_url}/login/", data=data, headers=common_headers)
         print('======post=======', post)
         if post.status_code == 200:
             data = post.json()
@@ -72,7 +74,7 @@ def otp_verify(request):
 
         data = { 'otp':otp, 'email':email }
 
-        verify_otp = requests.post(f"{api_url}/otpverify/", data=data)
+        verify_otp = requests.post(f"{api_url}/otpverify/", data=data, headers=common_headers)
 
         data = verify_otp.json()
         if verify_otp.status_code in [200, 201]:
@@ -82,7 +84,7 @@ def otp_verify(request):
             context['first_name'] = data['user']['first_name'] 
             context['last_name'] = data['user']['last_name'] 
             
-            # userdata = requests.get(f'{api_url}/user/', params={'userId':userId})
+            # userdata = requests.get(f'{api_url}/user/', params={'userId':userId}, headers=common_headers)
             return render(request, 'home.html', context=context)
         else:
             print('======data======', data)
