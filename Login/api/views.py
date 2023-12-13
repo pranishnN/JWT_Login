@@ -81,8 +81,8 @@ class UserLoginAPI(APIView):
     def post(self, request):
         email = request.data.get('email_id')
         user = masUser.objects.filter(email_id__iexact=email)
-        user_id = user.first().id
         if user.exists():
+            user_id = user.first().id
             otp = otp_func(length=6)
             otp_expire_time = otp_expire_time_func()
             update = user.update(otp=otp, otp_expire_time=otp_expire_time)
