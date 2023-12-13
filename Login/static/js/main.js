@@ -80,3 +80,19 @@ function validate(val) {
 
     return flag;
 }
+
+
+function showmsg(msg, type) {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
+  
+    Toast.fire({
+      icon: (type == 1 ? 'success' : 'error'),
+      title: msg
+    })
+  }
