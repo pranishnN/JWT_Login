@@ -1,0 +1,36 @@
+504-loadbalancer
+
+
+
+if this is your site, and you just reloaded it, then the problem might simply be that it hasn't loaded up yet. Try refreshing this page and see if this message disappears.
+
+If you keep getting this message, you should check your site's server and error logs for any messages.
+
+
+
+
+
+
+10:51 /var/log $ tail -f pranishn.pythonanywhere.com.server.log
+2023-12-13 09:54:43 ======post======= <Response [504]>
+2023-12-13 09:54:43 Internal Server Error: /login/#012Traceback (most recent call last):#012  File "/home/pranishN/.virtualenvs/venv/lib/python3.10
+/site-packages/requests/models.py", line 971, in json#012    return complexjson.loads(self.text, **kwargs)#012  File "/usr/local/lib/python3.10/jso
+n/__init__.py", line 346, in loads#012    return _default_decoder.decode(s)#012  File "/usr/local/lib/python3.10/json/decoder.py", line 337, in dec
+ode#012    obj, end = self.raw_decode(s, idx=_w(s, 0).end())#012  File "/usr/local/lib/python3.10/json/decoder.py", line 355, in raw_decode#012    
+raise JSONDecodeError("Expecting value", s, err.value) from None#012json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)#012#012
+During handling of the above exception, another exception occurred:#012#012Traceback (most recent call last):#012  File "/home/pranishN/.virtualenv
+s/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner#012    response = get_response(request)#012  
+2023-12-13 09:54:43 Wed Dec 13 09:54:43 2023 - SIGPIPE: writing to a closed pipe/socket/fd (probably the client disconnected) on request /login/ (i
+p 10.0.0.75) !!!
+2023-12-13 09:54:43 Wed Dec 13 09:54:43 2023 - uwsgi_response_writev_headers_and_body_do(): Broken pipe [core/writer.c line 306] during POST /login
+/ (10.0.0.75)
+2023-12-13 09:54:43 -------OTP------- 467235
+2023-12-13 09:54:44 Wed Dec 13 09:54:44 2023 - SIGPIPE: writing to a closed pipe/socket/fd (probably the client disconnected) on request /api/login
+/ (ip 10.0.0.75) !!!
+2023-12-13 09:54:44 Wed Dec 13 09:54:44 2023 - uwsgi_response_writev_headers_and_body_do(): Broken pipe [core/writer.c line 306] during POST /api/l
+ogin/ (10.0.0.75)
+2023-12-13 09:54:44 Not Found: /api/
+2023-12-13 09:54:44 Wed Dec 13 09:54:44 2023 - SIGPIPE: writing to a closed pipe/socket/fd (probably the client disconnected) on request /api/ (ip 
+10.0.0.75) !!!
+2023-12-13 09:54:44 Wed Dec 13 09:54:44 2023 - uwsgi_response_writev_headers_and_body_do(): Broken pipe [core/writer.c line 306] during GET /api/ (
+10.0.0.75)

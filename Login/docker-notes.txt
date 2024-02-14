@@ -1,0 +1,9 @@
+after DockerFile and docker-compose.yml file was created
+
+cmds::  [Execute this cmds at the path of DockerFile located and make sure the docker desktop is 
+         running then only below cmds will work ]
+\> docker build -t yoour_docker_image [ Used to build image for your containerized app ]
+\> docker image [ Used to list all avialable docker images ]
+\> docker-compose up [ To run the dockerized app ]
+\> docker-compose up -d [ To run your dockerized app in backgroud ]
+\> docker-compose down [ Used to Stop running ]

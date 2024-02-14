@@ -14,9 +14,6 @@ from pathlib import Path
 from datetime import timedelta
 import os
 
-# decouple 
-from decouple import config
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
@@ -25,12 +22,13 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = 'django-insecure-o7)cerl=bf&_-$fba@0%i9(3*omu0!0ah7c7fq-j9ju7^&x9^3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['pranishN.pythonanywhere.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,11 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
-    
+
     'api',
     'web',
 ]
@@ -56,7 +54,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     # corsheader
     'corsheaders.middleware.CorsMiddleware',
-    
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -90,18 +88,10 @@ WSGI_APPLICATION = 'Login.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
     'default': {
-       'ENGINE': 'django.db.backends.postgresql',
-       'NAME': "jwtDB",
-       'USER': 'postgres',
-       'PASSWORD': '0909809098',
-       'HOST': 'testdb.c3auw2ayaqpk.ap-southeast-2.rds.amazonaws.com',
-       'PORT': '5432',
-   }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 
@@ -139,17 +129,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATICFILES_DIRS = (
-     os.path.join(BASE_DIR, 'static'),
-)
+STATIC_URL = '/static/'
 
-STATIC_URL = 'static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = "/home/pranishN/JWT_Login/Login/static/"
 
-# STATIC_ROOT = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'staticfiles'),
+]
+
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = 'media/'
-
-# MEDIA_ROOT = '/home/vedayatra/PriestAPI/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -160,19 +151,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'adhocuser23@gmail.com'
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = 587  
+EMAIL_HOST_PASSWORD = 'gidy sjbh kwki ruwh'
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-API_URL = 'http://127.0.0.1:8000/api'
+# API_URL = 'http://127.0.0.1:8000/api'
+API_URL = 'https://pranishN.pythonanywhere.com/api'
 
 # --- Custom Model ---
 AUTH_USER_MODEL = 'api.masUser'
 
-REST_FRAMEWORK = { 
-    'DEFAULT_AUTHENTICATION_CLASSES': [ 
-        'rest_framework_simplejwt.authentication.JWTAuthentication', 
-    ], 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
 }
 
 

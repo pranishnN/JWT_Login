@@ -12,6 +12,8 @@ from rest_framework import status
 # django
 from django.contrib.auth.hashers import make_password
 from django.conf import settings
+from django.db.models import Count, Avg, Max, Min, Q, F, Value
+
 
 # Project
 from .models import masUser
@@ -133,5 +135,4 @@ class OTPVerifyAPI(APIView):
             return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
+# SAM = masUser.objects.all().annotate(otp_count=Count('otp', filter=Q()))

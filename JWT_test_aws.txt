@@ -1,0 +1,54 @@
+grep - its used to filter particular value
+-lntp => -l (show listening socket) | -n (numeric address & port) | -t (tcp socket connection) | -p (show the process ids for listening socket)
+
+
+ssh -i Downloads/jwt_test_pem.pem ubuntu@ec2-13-239-26-224.ap-southeast-2.compute.amazonaws.com
+
+::::etc/systemd/system/jwt_app.service
+[Unit]
+Description=gunnicorn daemon
+Requires=jwt_app.socket
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/home/JWT_Login_test/JWT_Login
+ExecStart=/home/JWT_Login_test/virtual/bin/gunicorn\
+        --access-logfile-\
+        --workers 3
+        --bind unix:run/jwt_app.sock\
+        Login.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+/home/JWT_Login_test/JWT_Login/virtual/bin/activate
+
+
+ps aux | grep gunicorn
+
+sudo [ ss or netstat ] -lntp | grep [gunicorn]
+
+sudo [less | cat | tail ] - are same
+
+ 
+
+
+
+
+nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+     Active: failed (Result: exit-code) since Fri 2023-12-29 11:25:30 UTC; 24s ago
+       Docs: man:nginx(8)
+    Process: 12143 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, status=1/FAILURE)
+        CPU: 11ms
+
+Dec 29 11:25:30 ip-172-31-5-90 systemd[1]: Starting A high performance web server and a reverse proxy server...
+Dec 29 11:25:30 ip-172-31-5-90 nginx[12143]: nginx: [emerg] open() "/etc/nginx/sites-enabled/jwt_login" failed (2: No such file or directory) i>
+Dec 29 11:25:30 ip-172-31-5-90 nginx[12143]: nginx: configuration file /etc/nginx/nginx.conf test failed
+Dec 29 11:25:30 ip-172-31-5-90 systemd[1]: nginx.service: Control process exited, code=exited, status=1/FAILURE
+Dec 29 11:25:30 ip-172-31-5-90 systemd[1]: nginx.service: Failed with result 'exit-code'.
+Dec 29 11:25:30 ip-172-31-5-90 systemd[1]: Failed to start A high performance web server and a reverse proxy server.
